@@ -1,0 +1,1 @@
+Orbit is a multi-agent AI framework that automates complex tasks across browsers and applications through a chat interface. Users can request tasks like "book a flight", "compare prices", "fill forms", or "process documents" and the system intelligently routes these to specialized agents that complete the work autonomously.

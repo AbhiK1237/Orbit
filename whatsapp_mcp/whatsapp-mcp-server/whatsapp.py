@@ -318,7 +318,7 @@ def get_message_context(
 
 def list_chats(
     query: Optional[str] = None,
-    limit: int = 20,
+    limit: int = 2,
     page: int = 0,
     include_last_message: bool = True,
     sort_by: str = "last_active"

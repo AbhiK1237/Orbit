@@ -9,7 +9,7 @@ from camel.configs import GeminiConfig
 from camel.agents import ChatAgent
 from camel.toolkits import FunctionTool,SearchToolkit,TwitterToolkit
 from camel.toolkits.twitter_toolkit import create_tweet, delete_tweet, get_my_user_profile, get_user_by_username
-
+from agents.document_agent import pdf_tool
 
 twitter_tools = [
     FunctionTool(create_tweet),
@@ -32,10 +32,15 @@ def calculate_sum(a: int, b: int) -> int:
 add_tool = FunctionTool(calculate_sum)
 google_tool = FunctionTool(SearchToolkit().search_google)
 agent = ChatAgent(
-    system_message="You are a helpful assistant.",
+    system_message="You are a helpful assistant that can use tools like PDF retriever, Google search, and Twitter.",
     model=model,
-    tools=[add_tool, google_tool, *twitter_tools]
+    tools=[
+        add_tool,
+        google_tool, 
+        *twitter_tools,
+        pdf_tool
+        ]
 )
 
-# res = agent.step("create a tweet saying hello world")
-# print(res.msgs[0].content)
+res = agent.step("what are my technical skills mentioned in my resume?")
+print(res.msgs[0].content)

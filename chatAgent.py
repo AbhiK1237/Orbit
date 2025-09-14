@@ -18,7 +18,7 @@ twitter_tools = [
     FunctionTool(get_user_by_username),
 ]
 
-print(create_tweet("hello world from api"))
+# print(create_tweet("hello world from api"))
 model = ModelFactory.create(
     model_platform=ModelPlatformType.GEMINI,
     model_type=ModelType.GEMINI_2_5_PRO,

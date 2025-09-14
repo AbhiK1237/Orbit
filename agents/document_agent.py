@@ -40,8 +40,10 @@ vector_retriever = VectorRetriever(embedding_model=embedding_instance,
                                    storage=storage_instance)
 
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PDF_PATH = os.path.join(BASE_DIR, "local_data", "Abhijith_Resume.pdf")
 loader = UnstructuredIO()
-elements = loader.parse_file_or_url("local_data/Abhijith_Resume.pdf")
+elements = loader.parse_file_or_url(PDF_PATH)
 doc_text = " ".join([el.text for el in elements if el.text])
 
 splitter = RecursiveCharacterTextSplitter(
@@ -64,11 +66,31 @@ for idx, chunk in enumerate(chunks):
 # print(retrieved_info)
 
 def query_pdf(query: str) -> str:
-    """Retrieve answers from your embedded PDF."""
+    """
+    Query the embedded PDF for relevant information.
+
+    Args:
+        query (str): A natural language question about the PDF content.
+                     Example: "What are my technical skills?"
+
+    Returns:
+        str: The most relevant text chunks from the document,
+             concatenated into a readable answer. If no results
+             are found, a default message is returned.
+
+    Notes:
+        - The PDF content is pre-processed into chunks and stored
+          in Qdrant for vector similarity search.
+        - This function retrieves the top-k chunks most relevant
+          to the query using embeddings.
+    """
     results = vector_retriever.query(query=query, top_k=3, similarity_threshold=0.3)
     if not results:
         return "No relevant information found in the document."
-    return "\n".join([r.content for r in results])
+    
+    # Extract from the right field
+    return "\n".join([r.get("text", "") for r in results if "text" in r])
+
 
 pdf_tool = FunctionTool(query_pdf)
 

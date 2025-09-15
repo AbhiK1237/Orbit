@@ -2,4 +2,4 @@
 venv/
 .env
 qdrant_storage/
-mcp_client/config/
+# mcp_client/config/

@@ -1,0 +1,29 @@
+{
+    "mcpServers": {
+        "whatsapp": {
+            "command": "/opt/homebrew/bin/uv",
+            "args": [
+                "--directory",
+                "/Users/abhik/Documents/WebDev/Coding/AI_projects/Orbit/whatsapp_mcp/whatsapp-mcp-server",
+                "run",
+                "main.py"
+            ]
+        },
+        "notionMCP": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "mcp-remote",
+                "https://mcp.notion.com/mcp"
+            ]
+        },
+        "filesystem": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "@modelcontextprotocol/server-filesystem",
+                "/Users/abhik/Desktop"
+            ]
+        }
+    }
+}

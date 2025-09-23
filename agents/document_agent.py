@@ -21,7 +21,7 @@ from dotenv import load_dotenv
 load_dotenv()
 import os
 from camel.models import ModelFactory
-from camel.types import ModelPlatformType, ModelType
+from camel.types import ModelPlatformType,ModelType
 
 model = ModelFactory.create(
     model_platform=ModelPlatformType.GEMINI,
@@ -34,6 +34,7 @@ storage_instance = QdrantStorage(
     url_and_api_key=("http://localhost:6333", None),
     collection_name="camel_paper",
     prefer_grpc=False,
+    
 )
 
 vector_retriever = VectorRetriever(embedding_model=embedding_instance,
@@ -55,7 +56,9 @@ chunks = splitter.split_text(doc_text)
 
 print(f"📄 Extracted {len(chunks)} chunks from PDF")
 for idx, chunk in enumerate(chunks):
+    print(f"⬆️ Processing chunk {idx+1}/{len(chunks)}")
     vector_retriever.process(content=chunk)
+    print(f"✅ Stored chunk {idx+1}")
 
 # print("✅ Document embedded and stored in Qdrant")
 # retrieved_info = vector_retriever.query(
@@ -92,7 +95,7 @@ def query_pdf(query: str) -> str:
     return "\n".join([r.get("text", "") for r in results if "text" in r])
 
 
-pdf_tool = FunctionTool(query_pdf)
+document_agent = FunctionTool(query_pdf)
 
 # retrieved_info_irrevelant = vector_retriever.query(
 #     query="Compared with dumpling and rice, which should I take for dinner?",

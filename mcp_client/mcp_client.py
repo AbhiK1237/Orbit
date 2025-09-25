@@ -30,7 +30,7 @@ async def main():
             ]
         ]
       agent = ChatAgent(model=model, tools=safe_tools)
-      response = await agent.astep("create a page called newjeans in my notion notes")
+      response = await agent.astep("list all the tools of")
       print(response.msgs[0].content)
 
 asyncio.run(main())

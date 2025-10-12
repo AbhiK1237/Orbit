@@ -4,6 +4,7 @@ from camel.toolkits.mcp_toolkit import MCPToolkit
 
 async def load_mcp_tools(config_path="mcp_client/config/mcp_config.json"):
     async with MCPToolkit(config_path=config_path) as toolkit:
+        await toolkit.connect()
         tools = toolkit.get_tools()
         safe_tools = [
             t for t in tools
@@ -17,5 +18,5 @@ async def load_mcp_tools(config_path="mcp_client/config/mcp_config.json"):
         ]
         return safe_tools
 
-def get_mcp_tools():
-    return asyncio.run(load_mcp_tools())
+async def get_mcp_tools():
+    return await load_mcp_tools()

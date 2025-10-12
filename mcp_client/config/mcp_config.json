@@ -1,5 +1,14 @@
 {
     "mcpServers": {
+        "MCP_DOCKER": {
+            "command": "docker",
+            "args": [
+                "mcp",
+                "gateway",
+                "run"
+            ],
+            "type": "stdio"
+        },
         "whatsapp": {
             "command": "/opt/homebrew/bin/uv",
             "args": [
@@ -7,14 +16,6 @@
                 "/Users/abhik/Documents/WebDev/Coding/AI_projects/Orbit/whatsapp_mcp/whatsapp-mcp-server",
                 "run",
                 "main.py"
-            ]
-        },
-        "notionMCP": {
-            "command": "npx",
-            "args": [
-                "-y",
-                "mcp-remote",
-                "https://mcp.notion.com/mcp"
             ]
         },
         "filesystem": {

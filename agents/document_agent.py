@@ -44,21 +44,29 @@ vector_retriever = VectorRetriever(embedding_model=embedding_instance,
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PDF_PATH = os.path.join(BASE_DIR, "local_data", "Abhijith_Resume.pdf")
 loader = UnstructuredIO()
-elements = loader.parse_file_or_url(PDF_PATH)
-doc_text = " ".join([el.text for el in elements if el.text])
 
-splitter = RecursiveCharacterTextSplitter(
+collection_info = storage_instance._get_collection_info(storage_instance.collection_name)
+if collection_info:
+    print(f"✅ Collection '{storage_instance.collection_name}' already exists ")
+    print("Skipping embedding process.")
+else:
+
+
+    elements = loader.parse_file_or_url(PDF_PATH)
+    doc_text = " ".join([el.text for el in elements if el.text])
+
+    splitter = RecursiveCharacterTextSplitter(
     chunk_size=500,    # ~300-500 tokens works well
     chunk_overlap=100
-)
+    )
 
-chunks = splitter.split_text(doc_text)
+    chunks = splitter.split_text(doc_text)
 
-print(f"📄 Extracted {len(chunks)} chunks from PDF")
-for idx, chunk in enumerate(chunks):
-    print(f"⬆️ Processing chunk {idx+1}/{len(chunks)}")
-    vector_retriever.process(content=chunk)
-    print(f"✅ Stored chunk {idx+1}")
+    print(f"📄 Extracted {len(chunks)} chunks from PDF")
+    for idx, chunk in enumerate(chunks):
+         print(f"⬆️ Processing chunk {idx+1}/{len(chunks)}")
+         vector_retriever.process(content=chunk)
+         print(f"✅ Stored chunk {idx+1}")
 
 # print("✅ Document embedded and stored in Qdrant")
 # retrieved_info = vector_retriever.query(
